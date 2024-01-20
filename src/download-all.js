@@ -55,13 +55,14 @@
         const btn = document.querySelector('.sc-button-download');
         const id = btn.getAttribute('download');
         console.log(`have ${id}`);
-        if (!checkAndSetDownloaded(id)) {
+        if (!isDownloaded(id)) {
           console.log(`downloading ${id}`);
           btn.click();
           setTimeout(() => {
             const master = document.querySelector('input[value=master]');
             if (!master) {
               console.log('no master');
+              setDownloaded(id);
               setTimeout(loop, 1000);
               return;
             }
@@ -71,17 +72,19 @@
               const download = document.querySelector('.downloadModal__downloadBtn');
               if (!download) {
                 console.log('no download');
+                setDownloaded(id);
                 setTimeout(loop, 1000);
                 return;
               }
 
               download.click();
+              setDownloaded(id);
               setTimeout(loop, 1000);
             }, 100);
           }, 100);
         } else {
           console.log(`skipping ${id}`);
-          setTimeout(loop, 1000);
+          setTimeout(loop, 10);
         }
       };
       loop();
